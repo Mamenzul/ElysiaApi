@@ -10,6 +10,7 @@ export const loginRoutes = new Elysia({ prefix: "/login" })
   })
   .post(
     "/",
+    //FIXME : validation username / password
     async ({ body, set }) => {
       const { username, password } = body;
       const existingUser = await db.query.userTable.findFirst({

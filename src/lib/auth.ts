@@ -1,5 +1,5 @@
 import { Lucia } from "lucia";
-import { type Users } from "./db";
+import { type Users } from "./db/schema";
 import { adapter } from "./db";
 // your adapter
 

@@ -1,9 +1,13 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { InferSelectModel } from "drizzle-orm";
-import { createInsertSchema } from "drizzle-typebox";
+import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { createId } from "@paralleldrive/cuid2";
 
 export const userTable = sqliteTable("user", {
-  id: text("id").notNull().primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
+
   username: text("username").notNull(),
   password: text("password").notNull(),
 });
