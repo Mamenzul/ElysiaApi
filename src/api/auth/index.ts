@@ -1,13 +1,6 @@
-import { Auth } from '@auth/core';
-import { Elysia } from 'elysia';
-import { authConfig } from '~/lib/auth';
+import { Elysia } from "elysia";
 
-export const authRoutes = new Elysia({ prefix: '/auth' })
-  .get('/*', async (ctx) => {
-    const res = await Auth(ctx.request, authConfig);
-    return res;
-  })
-  .post('/*', async (ctx) => {
-    const res = await Auth(ctx.request, authConfig);
-    return res;
-  });
+export const authRoutes = new Elysia({ prefix: "/auth" }).get(
+  "/ping",
+  () => "pong"
+);

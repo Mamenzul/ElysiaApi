@@ -1,13 +1,6 @@
-import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
-
-import { Database } from "bun:sqlite";
-
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
-import { drizzle } from "drizzle-orm/better-sqlite3";
 import { InferSelectModel } from "drizzle-orm";
-
-const sqliteDB = new Database(":memory:");
-export const db = drizzle(sqliteDB);
+import { createInsertSchema } from "drizzle-typebox";
 
 export const userTable = sqliteTable("user", {
   id: text("id").notNull().primaryKey(),
@@ -16,6 +9,7 @@ export const userTable = sqliteTable("user", {
 });
 
 export type Users = InferSelectModel<typeof userTable>;
+export const usersInsertSchema = createInsertSchema(userTable);
 
 export const sessionTable = sqliteTable("session", {
   id: text("id").notNull().primaryKey(),
@@ -24,5 +18,3 @@ export const sessionTable = sqliteTable("session", {
     .references(() => userTable.id),
   expiresAt: integer("expires_at").notNull(),
 });
-
-export const adapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
