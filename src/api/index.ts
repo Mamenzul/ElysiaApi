@@ -1,13 +1,19 @@
 import { middleware } from "@/middleware";
 import { authRoutes } from "./auth";
-import { userRoutes } from "./users";
 import { Elysia } from "elysia";
-import { InvalidSession } from "@/lib/utils";
+import { BadCredentials, InvalidSession } from "@/lib/utils";
 
 export const apiRoutes = new Elysia({ prefix: "/api" })
   .use(middleware)
   .error({
     INVALID_SESSION: InvalidSession,
+    BAD_CREDENTIALS: BadCredentials,
+  })
+  .onError(({ code, error }) => {
+    switch (code) {
+      case "BAD_CREDENTIALS":
+        return error;
+    }
   })
   .guard(
     {

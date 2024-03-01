@@ -4,7 +4,7 @@ import { verifyRequestOrigin } from "lucia";
 import type { User, Session } from "lucia";
 import { lucia } from "./lib/auth";
 
-export const middleware = new Elysia({ name: "middleware" }).derive(
+export const middleware = new Elysia().derive(
   async (
     context
   ): Promise<{
