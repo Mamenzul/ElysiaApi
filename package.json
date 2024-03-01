@@ -3,13 +3,19 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "migrate": "bun run src/lib/db/migrate.ts",
+    "db:push": "drizzle-kit push:sqlite",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@elysiajs/lucia-auth": "^0.8.0-exp.1",
     "@elysiajs/swagger": "^0.8.5",
+    "@libsql/client": "^0.5.2",
     "@lucia-auth/adapter-drizzle": "^1.0.2",
     "@paralleldrive/cuid2": "^2.2.2",
     "drizzle-orm": "^0.29.4",
+    "drizzle-orm-sqlite": "^0.16.1",
     "drizzle-typebox": "^0.1.1",
     "elysia": "latest",
     "lucia": "^3.0.1",
