@@ -1,9 +1,10 @@
 import { Elysia } from "elysia";
+import StaticPlugin from "@elysiajs/static";
 import swagger from "@elysiajs/swagger";
 import { apiRoutes } from "./api";
 import { env } from "./env";
 
-export const app = new Elysia().use(swagger()).use(apiRoutes).get('/', async (ctx) => {
+export const app = new Elysia().use(StaticPlugin()).use(swagger()).use(apiRoutes).get('/', async (ctx) => {
   return {
     status: 'success',
     message: 'Welcome to Elysia',
