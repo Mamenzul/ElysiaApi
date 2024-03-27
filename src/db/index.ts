@@ -1,9 +1,9 @@
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
-import * as schema from "./schema.js";
+import * as schema from "./schema";
 import { userTable, sessionTable } from "./schema";
-import { env } from "@/env.js";
+import { env } from "@/env";
 
 const client = createClient({
   url: env.DB_URL,
