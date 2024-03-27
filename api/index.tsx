@@ -4,7 +4,7 @@
 
 //import '../src/env'; // Validate env vars
 
-import { app } from '../src/';
+import { app } from '../src/index.js';
 
 //export const config = { runtime: 'edge' };
 
