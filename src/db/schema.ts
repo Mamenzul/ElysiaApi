@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { InferSelectModel } from "drizzle-orm";
-import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { createInsertSchema } from "drizzle-typebox";
 import { createId } from "@paralleldrive/cuid2";
 
 export const userTable = sqliteTable("user", {

@@ -24,3 +24,25 @@ declare module "lucia" {
     DatabaseUserAttributes: Pick<Users, "username">;
   }
 }
+
+export function validatePassword(password : string) {
+  // Define constraints
+  const minLength = 8; // Minimum length of password
+  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasLowercase = /[a-z]/.test(password);
+  
+  // Check if password meets constraints
+  if (
+      password.length < minLength ||
+      !hasSpecialChar ||
+      !hasNumber ||
+      !hasUppercase ||
+      !hasLowercase
+  ) {
+      return false; // Password is invalid
+  }
+
+  return true; // Password is valid
+}
