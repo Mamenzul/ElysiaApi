@@ -3,6 +3,7 @@
   "name": "elysia-api",
   "version": "1.0.50",
   "module": "src/index.js",
+  "type": "module",
   "scripts": {
     "----BUILD": "",
     "build:vercel": "bun scripts/transform-paths.ts",
