@@ -6,7 +6,7 @@ import '../src/env'; // Validate env vars
 
 import { app } from '../src/';
 
-export const config = { runtime: 'edge' };
+//export const config = { runtime: 'edge' };
 
 export default async function handler(request: Request) {
   return app.fetch(request);
