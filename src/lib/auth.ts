@@ -12,7 +12,7 @@ export const lucia = new Lucia(adapter, {
   },
   getUserAttributes: (attributes) => {
     return {
-      username: attributes.username,
+      email: attributes.email,
     };
   },
 });
@@ -21,27 +21,29 @@ export const lucia = new Lucia(adapter, {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Pick<Users, "username">;
+    DatabaseUserAttributes: Pick<Users, "email">;
   }
 }
 
-export function validatePassword(password : string) {
+export function validatePassword(password: string) {
   // Define constraints
   const minLength = 8; // Minimum length of password
-  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+  const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(
+    password
+  );
   const hasNumber = /\d/.test(password);
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
-  
+
   // Check if password meets constraints
   if (
-      password.length < minLength ||
-      !hasSpecialChar ||
-      !hasNumber ||
-      !hasUppercase ||
-      !hasLowercase
+    password.length < minLength ||
+    !hasSpecialChar ||
+    !hasNumber ||
+    !hasUppercase ||
+    !hasLowercase
   ) {
-      return false; // Password is invalid
+    return false; // Password is invalid
   }
 
   return true; // Password is valid

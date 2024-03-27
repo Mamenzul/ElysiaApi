@@ -7,9 +7,15 @@ import { lucia, validatePassword } from "@/lib/auth";
 import { middleware } from "@/middleware";
 import { BadCredentials, InvalidSession } from "@/lib/utils";
 
-export const authRoutes = new Elysia({ prefix: "/auth" })
-  .use(middleware)
-  .group("", { body: t.Omit(usersInsertSchema, ["id"]) }, (app) =>
+export const authRoutes = new Elysia().use(middleware).group(
+  "/auth",
+  {
+    body: t.Object({
+      email: t.String({ format: "email" }),
+      password: t.String(),
+    }),
+  },
+  (app) =>
     app
       .guard(
         {
@@ -22,9 +28,9 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
           app
             .post("sign-in", async ({ body, cookie: { auth_session } }) => {
               try {
-                const { username, password } = body;
+                const { email, password } = body;
                 const existingUser = await db.query.userTable.findFirst({
-                  where: eq(userTable.username, username),
+                  where: eq(userTable.email, email),
                 });
                 if (!existingUser) throw new BadCredentials();
                 const validPassword = await new Argon2id().verify(
@@ -33,7 +39,7 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
                 );
                 if (!validPassword) throw new BadCredentials();
                 const session = await lucia.createSession(existingUser.id, {
-                  username,
+                  email,
                 });
                 const sessionCookie = lucia.createSessionCookie(session.id);
                 auth_session.set({
@@ -46,14 +52,14 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
             })
             .post("sign-up", async ({ body, cookie: { auth_session } }) => {
               try {
-                const { username, password } = body;
+                const { email, password } = body;
                 const hashedPassword = await new Argon2id().hash(password);
                 const [insertedUser] = await db
                   .insert(userTable)
-                  .values({ username, password: hashedPassword })
+                  .values({ email, password: hashedPassword })
                   .returning();
                 const session = await lucia.createSession(insertedUser.id, {
-                  username,
+                  email,
                 });
                 const sessionCookie = lucia.createSessionCookie(session.id);
                 auth_session.set({
@@ -83,4 +89,4 @@ export const authRoutes = new Elysia({ prefix: "/auth" })
             }
           )
       )
-  );
+);

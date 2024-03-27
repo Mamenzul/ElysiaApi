@@ -5,6 +5,7 @@ import type { User, Session } from "lucia";
 import { lucia } from "./lib/auth";
 
 export const middleware = new Elysia().derive(
+  { as: "global" },
   async (
     context
   ): Promise<{
