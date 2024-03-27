@@ -172,11 +172,10 @@ dist
 
 private/
 
+# prettier
+
+*.min.js
+
 # database
 
-*.db
-
-# vercel
-
-.vercel
-public/globals.css
+src/db/migrations/*

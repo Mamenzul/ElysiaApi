@@ -42,7 +42,7 @@ export const authRoutes = new Elysia().use(middleware).group(
                   email,
                 });
                 const sessionCookie = lucia.createSessionCookie(session.id);
-                auth_session.set({
+                auth_session!.set({
                   value: sessionCookie.value,
                   ...sessionCookie.attributes,
                 });
@@ -58,11 +58,12 @@ export const authRoutes = new Elysia().use(middleware).group(
                   .insert(userTable)
                   .values({ email, password: hashedPassword })
                   .returning();
+                if (!insertedUser) throw new BadCredentials();
                 const session = await lucia.createSession(insertedUser.id, {
                   email,
                 });
                 const sessionCookie = lucia.createSessionCookie(session.id);
-                auth_session.set({
+                auth_session!.set({
                   value: sessionCookie.value,
                   ...sessionCookie.attributes,
                 });
@@ -85,7 +86,7 @@ export const authRoutes = new Elysia().use(middleware).group(
             "sign-out",
             async ({ cookie: { auth_session }, session }) => {
               await lucia.invalidateSession(session!.id);
-              auth_session.remove();
+              auth_session!.remove();
             }
           )
       )

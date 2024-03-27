@@ -16,9 +16,6 @@ const envVariables = z.object({
   PORT: z.coerce.number().default(3000),
   RUNTIME: z.enum(["bun", "edge"]).default("bun"),
   DB_AUTH_TOKEN: z.string().min(1),
-  // AUTH_SECRET: z.string().min(1),
-  // AUTH_GITHUB_ID: z.string().min(1),
-  // AUTH_GITHUB_SECRET: z.string().min(1),
   DB_URL: z.string().min(1),
 });
 

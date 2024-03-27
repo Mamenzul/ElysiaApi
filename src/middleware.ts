@@ -42,14 +42,14 @@ export const middleware = new Elysia().derive(
     const { session, user } = await lucia.validateSession(sessionId);
     if (session && session.fresh) {
       const sessionCookie = lucia.createSessionCookie(session.id);
-      context.cookie[sessionCookie.name].set({
+      context.cookie[sessionCookie.name]!.set({
         value: sessionCookie.value,
         ...sessionCookie.attributes,
       });
     }
     if (!session) {
       const sessionCookie = lucia.createBlankSessionCookie();
-      context.cookie[sessionCookie.name].set({
+      context.cookie[sessionCookie.name]!.set({
         value: sessionCookie.value,
         ...sessionCookie.attributes,
       });
