@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package",
   "name": "elysia-api",
   "version": "1.0.50",
-  "module": "src/index.js",
+  "module": "src/index.ts",
   "type": "module",
   "scripts": {
     "----BUILD": "",
