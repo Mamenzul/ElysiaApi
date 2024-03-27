@@ -1,7 +1,7 @@
 /**
  * This file will transform all relative imports to absolute imports
  * inside the src/ directory.
- * (assumes TS config compilerOptions.paths = { "~/*": ["./src/*"] })
+ * (assumes TS config compilerOptions.paths = { "@/*": ["./src/*"] })
  */
 
 import fs from 'node:fs/promises';
@@ -37,7 +37,7 @@ while (directories.length) {
     const file = Bun.file(filePath);
     const fileText = await file.text();
     const fileTextNew = fileText.replace(
-      /(import.*')(~\/)/g,
+      /(import.*')(~@\/)/g,
       `$1${relativeSrcPath}`
     );
     await Bun.write(filePath, fileTextNew);
