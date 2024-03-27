@@ -1,7 +1,7 @@
 import { middleware } from "@/middleware";
 import { authRoutes } from "./auth";
 import { Elysia } from "elysia";
-import { BadCredentials, InvalidSession } from "@/lib/utils";
+import { BadCredentials, InvalidSession } from "@/app/lib/utils";
 
 export const apiRoutes = new Elysia({ prefix: "/api" })
   .use(middleware)

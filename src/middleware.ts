@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { verifyRequestOrigin } from "lucia";
 
 import type { User, Session } from "lucia";
-import { lucia } from "./lib/auth";
+import { lucia } from "./app/lib/auth";
 
 export const middleware = new Elysia().derive(
   { as: "global" },

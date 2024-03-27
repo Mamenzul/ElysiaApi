@@ -1,23 +1,24 @@
 import { Elysia, t } from "elysia";
-import { userTable, usersInsertSchema } from "@/db/schema";
-import { db } from "@/db";
+import { userTable, usersInsertSchema } from "@/app/db/schema";
+import { db } from "@/app/db";
 import { eq } from "drizzle-orm";
 import { Argon2id } from "oslo/password";
-import { lucia, validatePassword } from "@/lib/auth";
+import { lucia, validatePassword } from "@/app/lib/auth";
 import { middleware } from "@/middleware";
-import { BadCredentials, InvalidSession } from "@/lib/utils";
+import { BadCredentials, InvalidSession } from "@/app/lib/utils";
 
-export const authRoutes = new Elysia().use(middleware).group(
-  "/auth",
-  {
-    body: t.Object({
-      email: t.String({ format: "email" }),
-      password: t.String(),
-    }),
-  },
-  (app) =>
-    app
-      .guard(
+export const authRoutes = new Elysia({ prefix: "/auth" })
+  .use(middleware)
+  .group(
+    "",
+    {
+      body: t.Object({
+        email: t.String({ format: "email" }),
+        password: t.String(),
+      }),
+    },
+    (app) =>
+      app.guard(
         {
           beforeHandle: ({ body }) => {
             const password = body.password;
@@ -74,20 +75,16 @@ export const authRoutes = new Elysia().use(middleware).group(
               }
             })
       )
-
-      .guard(
-        {
-          beforeHandle: ({ user, session }) => {
-            if (!user || !session) throw new InvalidSession();
-          },
-        },
-        (app) =>
-          app.post(
-            "sign-out",
-            async ({ cookie: { auth_session }, session }) => {
-              await lucia.invalidateSession(session!.id);
-              auth_session!.remove();
-            }
-          )
-      )
-);
+  )
+  .guard(
+    {
+      beforeHandle: ({ user, session }) => {
+        if (!user || !session) throw new InvalidSession();
+      },
+    },
+    (app) =>
+      app.post("sign-out", async ({ cookie: { auth_session }, session }) => {
+        await lucia.invalidateSession(session!.id);
+        auth_session!.remove();
+      })
+  );

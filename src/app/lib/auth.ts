@@ -1,6 +1,6 @@
 import { Lucia } from "lucia";
-import { type Users } from "@/db/schema";
-import { adapter } from "@/db";
+import { type Users } from "@/app/db/schema";
+import { adapter } from "@/app/db";
 // your adapter
 
 export const lucia = new Lucia(adapter, {

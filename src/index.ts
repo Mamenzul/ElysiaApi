@@ -1,18 +1,17 @@
-import { Elysia } from "elysia";
-import StaticPlugin from "@elysiajs/static";
-import swagger from "@elysiajs/swagger";
-import { apiRoutes } from "./api";
-import { env } from "./env";
+import staticPlugin from '@elysiajs/static';
+import { app } from './app';
+import { env } from './env';
+import Elysia from 'elysia';
 
-export const app = new Elysia().use(StaticPlugin()).use(swagger()).use(apiRoutes).get('/', async (ctx) => {
-  return {
-    status: 'success',
-    message: 'Welcome to Elysia',
-  };
-})
-.get('/health', (ctx) => 'ok');
+const server = new Elysia()
+  // Plugins that aren't compatible with the edge
+  .use(staticPlugin())
 
-app.listen({ port: env.PORT }, ({ hostname, port }) => {
+  // Routes
+  .use(app);
+
+server.listen({ port: env.PORT }, ({ hostname, port }) => {
   const url = env.NODE_ENV === 'production' ? 'https' : 'http';
+
   console.log(`🦊 Elysia is running at ${url}://${hostname}:${port}`);
 });
